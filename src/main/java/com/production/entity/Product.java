@@ -29,8 +29,6 @@ public class Product {
     )
     private List<ProductRawMaterial> productRawMaterials = new ArrayList<>();
 
-    // ===== CONSTRUCTORS =====
-
     public Product() {
     }
 
