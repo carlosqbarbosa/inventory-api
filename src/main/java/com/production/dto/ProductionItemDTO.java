@@ -43,9 +43,6 @@ public class ProductionItemDTO {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-        if (this.unitValue != null) {
-            this.totalValue = this.unitValue.multiply(BigDecimal.valueOf(quantity));
-        }
     }
 
     public BigDecimal getUnitValue() {
@@ -54,9 +51,6 @@ public class ProductionItemDTO {
 
     public void setUnitValue(BigDecimal unitValue) {
         this.unitValue = unitValue;
-        if (this.quantity != null) {
-            this.totalValue = unitValue.multiply(BigDecimal.valueOf(this.quantity));
-        }
     }
 
     public BigDecimal getTotalValue() {

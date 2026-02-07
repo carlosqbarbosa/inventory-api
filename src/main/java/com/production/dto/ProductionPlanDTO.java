@@ -6,15 +6,17 @@ import java.util.List;
 
 public class ProductionPlanDTO {
 
-    private List<ProductionItemDTO> productionItems = new ArrayList<>();
-    private BigDecimal totalValue = BigDecimal.ZERO;
+    private List<ProductionItemDTO> productionItems;
+    private BigDecimal totalValue;
 
     public ProductionPlanDTO() {
+        this.productionItems = new ArrayList<>();
+        this.totalValue = BigDecimal.ZERO;
     }
 
-    public ProductionPlanDTO(List<ProductionItemDTO> productionItems, BigDecimal totalValue) {
-        this.productionItems = productionItems;
-        this.totalValue = totalValue;
+    public void addProductionItem(ProductionItemDTO item) {
+        this.productionItems.add(item);
+        this.totalValue = this.totalValue.add(item.getTotalValue());
     }
 
     public List<ProductionItemDTO> getProductionItems() {
@@ -31,11 +33,5 @@ public class ProductionPlanDTO {
 
     public void setTotalValue(BigDecimal totalValue) {
         this.totalValue = totalValue;
-    }
-
-
-    public void addProductionItem(ProductionItemDTO item) {
-        this.productionItems.add(item);
-        this.totalValue = this.totalValue.add(item.getTotalValue());
     }
 }
