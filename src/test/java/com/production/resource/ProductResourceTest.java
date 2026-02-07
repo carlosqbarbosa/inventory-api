@@ -33,7 +33,6 @@ public class ProductResourceTest {
     @Order(2)
     @DisplayName("Should create a new product")
     public void testCreateProduct() {
-        // FIX: Usar Map para evitar problemas de serialização
         Map<String, Object> product = new HashMap<>();
         product.put("name", "Test Product");
         product.put("value", 99.99);
@@ -55,7 +54,6 @@ public class ProductResourceTest {
     @Order(3)
     @DisplayName("Should get product by ID")
     public void testGetProductById() {
-        // Create a product
         Map<String, Object> product = new HashMap<>();
         product.put("name", "Product to Get");
         product.put("value", 50.00);
@@ -70,7 +68,6 @@ public class ProductResourceTest {
                 .extract()
                 .path("id");
 
-        // Get it by ID
         given()
                 .when()
                 .get("/products/" + id)
@@ -86,7 +83,6 @@ public class ProductResourceTest {
     @Order(4)
     @DisplayName("Should update an existing product")
     public void testUpdateProduct() {
-        // Create a product
         Map<String, Object> product = new HashMap<>();
         product.put("name", "Original Name");
         product.put("value", 100.00);
@@ -101,7 +97,6 @@ public class ProductResourceTest {
                 .extract()
                 .path("id");
 
-        // Update the product
         Map<String, Object> updatedProduct = new HashMap<>();
         updatedProduct.put("name", "Updated Name");
         updatedProduct.put("value", 150.00);
@@ -122,7 +117,6 @@ public class ProductResourceTest {
     @Order(5)
     @DisplayName("Should delete a product")
     public void testDeleteProduct() {
-        // Create a product
         Map<String, Object> product = new HashMap<>();
         product.put("name", "Product to Delete");
         product.put("value", 75.00);
@@ -137,14 +131,12 @@ public class ProductResourceTest {
                 .extract()
                 .path("id");
 
-        // Delete the product
         given()
                 .when()
                 .delete("/products/" + id)
                 .then()
                 .statusCode(204);
 
-        // Verify it's deleted
         given()
                 .when()
                 .get("/products/" + id)
@@ -248,7 +240,6 @@ public class ProductResourceTest {
     @Order(12)
     @DisplayName("Should list multiple products")
     public void testListMultipleProducts() {
-        // Create multiple products
         for (int i = 1; i <= 3; i++) {
             Map<String, Object> product = new HashMap<>();
             product.put("name", "Product " + i);
@@ -261,7 +252,6 @@ public class ProductResourceTest {
                     .post("/products");
         }
 
-        // Verify list contains products
         given()
                 .when()
                 .get("/products")

@@ -9,7 +9,6 @@ public class ProductionPlanDTO {
     private List<ProductionItemDTO> productionItems = new ArrayList<>();
     private BigDecimal totalValue = BigDecimal.ZERO;
 
-    // Constructors
     public ProductionPlanDTO() {
     }
 
@@ -18,7 +17,6 @@ public class ProductionPlanDTO {
         this.totalValue = totalValue;
     }
 
-    // Getters and Setters
     public List<ProductionItemDTO> getProductionItems() {
         return productionItems;
     }
@@ -35,7 +33,7 @@ public class ProductionPlanDTO {
         this.totalValue = totalValue;
     }
 
-    // Helper methods
+
     public void addProductionItem(ProductionItemDTO item) {
         this.productionItems.add(item);
         this.totalValue = this.totalValue.add(item.getTotalValue());

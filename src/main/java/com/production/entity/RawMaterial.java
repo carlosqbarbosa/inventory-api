@@ -32,8 +32,6 @@ public class RawMaterial {
     )
     private List<ProductRawMaterial> productRawMaterials = new ArrayList<>();
 
-    // ===== CONSTRUCTORS =====
-
     public RawMaterial() {}
 
     public RawMaterial(String name, Integer stockQuantity) {
@@ -41,7 +39,6 @@ public class RawMaterial {
         this.stockQuantity = stockQuantity;
     }
 
-    // ===== GETTERS E SETTERS =====
 
     public Long getId() {
         return id;
@@ -67,7 +64,6 @@ public class RawMaterial {
         this.stockQuantity = stockQuantity;
     }
 
-    // ===== HELPERS =====
 
     public void decreaseStock(Integer quantity) {
         if (stockQuantity < quantity) {

@@ -12,7 +12,7 @@ public class ProductRawMaterialDTO {
 
     @NotNull(message = "Quantity is required")
     @Positive(message = "Quantity must be positive")
-    private Integer quantity;
+    private Integer quantityRequired;
 
     private Integer stockQuantity;
 
@@ -22,12 +22,12 @@ public class ProductRawMaterialDTO {
     public ProductRawMaterialDTO(
             Long rawMaterialId,
             String rawMaterialName,
-            Integer quantity,
+            Integer quantityRequired,
             Integer stockQuantity
     ) {
         this.rawMaterialId = rawMaterialId;
         this.rawMaterialName = rawMaterialName;
-        this.quantity = quantity;
+        this.quantityRequired = quantityRequired;
         this.stockQuantity = stockQuantity;
     }
 
@@ -47,12 +47,12 @@ public class ProductRawMaterialDTO {
         this.rawMaterialName = rawMaterialName;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getQuantityRequired() {
+        return quantityRequired;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setQuantityRequired(Integer quantityRequired) {
+        this.quantityRequired = quantityRequired;
     }
 
     public Integer getStockQuantity() {

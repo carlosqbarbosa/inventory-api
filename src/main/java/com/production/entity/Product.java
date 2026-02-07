@@ -16,8 +16,8 @@ public class Product {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(name = "price", nullable = false, precision = 10, scale = 2)  // ← MUDANÇA AQUI
-    private BigDecimal value;
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
 
     @Column
     private Integer stock;
@@ -32,12 +32,10 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, BigDecimal value) {
+    public Product(String name, BigDecimal price) {
         this.name = name;
-        this.value = value;
+        this.price = price;
     }
-
-    // ===== GETTERS E SETTERS =====
 
     public Long getId() {
         return id;
@@ -55,12 +53,12 @@ public class Product {
         this.name = name;
     }
 
-    public BigDecimal getValue() {
-        return value;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setValue(BigDecimal value) {
-        this.value = value;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public Integer getStock() {

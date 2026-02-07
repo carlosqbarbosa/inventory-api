@@ -9,6 +9,7 @@ import com.production.repository.ProductRawMaterialRepository;
 import com.production.repository.RawMaterialRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 
@@ -26,6 +27,9 @@ public class ProductService {
 
     @Inject
     ProductRawMaterialRepository productRawMaterialRepository;
+
+    @Inject
+    EntityManager entityManager;
 
     public List<Product> findAll() {
         return productRepository.listAll();
@@ -49,7 +53,7 @@ public class ProductService {
     public Product update(Long id, Product updatedProduct) {
         Product product = findById(id);
         product.setName(updatedProduct.getName());
-        product.setValue(updatedProduct.getValue());
+        product.setPrice(updatedProduct.getPrice());
         return product;
     }
 
@@ -59,10 +63,6 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    // ============================
-    // RAW MATERIALS DO PRODUTO
-    // ============================
-
     public List<ProductRawMaterialDTO> getProductRawMaterials(Long productId) {
         Product product = findById(productId);
 
@@ -71,7 +71,7 @@ public class ProductService {
                 .map(prm -> new ProductRawMaterialDTO(
                         prm.getRawMaterial().getId(),
                         prm.getRawMaterial().getName(),
-                        prm.getQuantity(),
+                        prm.getQuantityRequired(),
                         prm.getRawMaterial().getStockQuantity()
                 ))
                 .collect(Collectors.toList());
@@ -105,11 +105,9 @@ public class ProductService {
         ProductRawMaterial prm = new ProductRawMaterial();
         prm.setProduct(product);
         prm.setRawMaterial(rawMaterial);
-        prm.setQuantity(dto.getQuantity());
+        prm.setQuantityRequired(dto.getQuantityRequired());
 
         product.getProductRawMaterials().add(prm);
-
-        // garante persistência
         productRawMaterialRepository.persist(prm);
     }
 
@@ -132,25 +130,36 @@ public class ProductService {
                         new NotFoundException("Raw material not associated with this product")
                 );
 
-        prm.setQuantity(newQuantity);
+        prm.setQuantityRequired(newQuantity);
     }
 
     @Transactional
     public void removeRawMaterialFromProduct(Long productId, Long rawMaterialId) {
 
+        System.out.println(" Backend DELETE - Start: productId=" + productId + ", rawMaterialId=" + rawMaterialId);
+
         Product product = findById(productId);
+
+        System.out.println(" Product found: " + product.getName() + ", materials count: " + product.getProductRawMaterials().size());
 
         ProductRawMaterial prm = product.getProductRawMaterials()
                 .stream()
-                .filter(p ->
-                        p.getRawMaterial().getId().equals(rawMaterialId)
-                )
+                .filter(p -> p.getRawMaterial().getId().equals(rawMaterialId))
                 .findFirst()
                 .orElseThrow(() ->
                         new NotFoundException("Raw material not associated with this product")
                 );
 
+        System.out.println(" Found relationship to remove: " + prm.getId());
+
         product.getProductRawMaterials().remove(prm);
+
         productRawMaterialRepository.delete(prm);
+
+        entityManager.flush();
+
+        entityManager.refresh(product);
+
+        System.out.println(" Backend DELETE - Complete. Remaining materials: " + product.getProductRawMaterials().size());
     }
 }

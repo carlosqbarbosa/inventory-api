@@ -15,8 +15,6 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProductionPlanResourceTest {
 
-    // FIX: Remover BeforeAll que pode causar problemas de conexão
-    // Criar dados de teste em cada método que precisar
 
     @Test
     @Order(1)
@@ -36,7 +34,6 @@ public class ProductionPlanResourceTest {
     @Order(2)
     @DisplayName("Should calculate production for specific product")
     public void testCalculateForProduct() {
-        // Create a product for testing
         Map<String, Object> product = new HashMap<>();
         product.put("name", "Test Product");
         product.put("value", 250.00);
@@ -68,7 +65,7 @@ public class ProductionPlanResourceTest {
     @Order(3)
     @DisplayName("Should check if quantity can be produced")
     public void testCanProduceQuantity() {
-        // Create a product
+
         Map<String, Object> product = new HashMap<>();
         product.put("name", "Production Test Product");
         product.put("value", 100.00);
@@ -96,7 +93,7 @@ public class ProductionPlanResourceTest {
     @Order(4)
     @DisplayName("Should return false for impossible production quantity")
     public void testCannotProduceExcessiveQuantity() {
-        // Create a product
+
         Map<String, Object> product = new HashMap<>();
         product.put("name", "Impossible Product");
         product.put("value", 50.00);
@@ -111,7 +108,6 @@ public class ProductionPlanResourceTest {
                 .extract()
                 .path("id");
 
-        // Try to produce an impossible amount
         given()
                 .when()
                 .get("/production-plan/product/" + productId + "/can-produce?quantity=999999")
@@ -150,7 +146,7 @@ public class ProductionPlanResourceTest {
     @Order(7)
     @DisplayName("Should handle zero stock scenario")
     public void testProductionPlanWithZeroStock() {
-        // Create a material with zero stock
+
         Map<String, Object> emptyMaterial = new HashMap<>();
         emptyMaterial.put("name", "Empty Material");
         emptyMaterial.put("stockQuantity", 0);
@@ -163,7 +159,6 @@ public class ProductionPlanResourceTest {
                 .then()
                 .statusCode(201);
 
-        // Create a product
         Map<String, Object> product = new HashMap<>();
         product.put("name", "Zero Stock Product");
         product.put("value", 100.00);
@@ -176,7 +171,6 @@ public class ProductionPlanResourceTest {
                 .then()
                 .statusCode(201);
 
-        // Production plan should still work
         given()
                 .when()
                 .get("/production-plan")
@@ -189,7 +183,7 @@ public class ProductionPlanResourceTest {
     @Order(8)
     @DisplayName("Should prioritize products by value")
     public void testProductionPlanPrioritization() {
-        // Create products with different values
+
         Map<String, Object> cheapProduct = new HashMap<>();
         cheapProduct.put("name", "Cheap Product");
         cheapProduct.put("value", 10.00);
@@ -214,7 +208,6 @@ public class ProductionPlanResourceTest {
                 .then()
                 .statusCode(201);
 
-        // Get production plan
         given()
                 .when()
                 .get("/production-plan")
@@ -228,7 +221,6 @@ public class ProductionPlanResourceTest {
     @Order(9)
     @DisplayName("Production item should have all required fields")
     public void testProductionItemFields() {
-        // Create a product
         Map<String, Object> product = new HashMap<>();
         product.put("name", "Fields Test Product");
         product.put("value", 75.00);
@@ -260,7 +252,7 @@ public class ProductionPlanResourceTest {
     @Order(10)
     @DisplayName("Should handle multiple products in production plan")
     public void testMultipleProductsInPlan() {
-        // Create additional products
+
         for (int i = 1; i <= 3; i++) {
             Map<String, Object> product = new HashMap<>();
             product.put("name", "Plan Product " + i);
@@ -275,7 +267,6 @@ public class ProductionPlanResourceTest {
                     .statusCode(201);
         }
 
-        // Get production plan
         given()
                 .when()
                 .get("/production-plan")

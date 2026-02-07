@@ -172,7 +172,6 @@ public class RawMaterialResourceTest {
                 .extract()
                 .path("id");
 
-        // FIX: Enviar StockRequest no body
         Map<String, Integer> request = new HashMap<>();
         request.put("quantity", 50);
 
@@ -202,7 +201,6 @@ public class RawMaterialResourceTest {
                 .extract()
                 .path("id");
 
-        // FIX: Enviar StockRequest no body
         Map<String, Integer> request = new HashMap<>();
         request.put("quantity", 30);
 
@@ -250,7 +248,6 @@ public class RawMaterialResourceTest {
     @Order(11)
     @DisplayName("Should get low stock materials")
     public void testGetLowStock() {
-        // Create materials with different stock levels
         given()
                 .contentType(ContentType.JSON)
                 .body(new RawMaterial("Low Stock 1", 5))
@@ -269,7 +266,6 @@ public class RawMaterialResourceTest {
                 .when()
                 .post("/raw-materials");
 
-        // Get low stock materials (threshold = 10)
         given()
                 .when()
                 .get("/raw-materials/low-stock?threshold=10")

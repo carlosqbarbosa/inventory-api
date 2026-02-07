@@ -28,8 +28,7 @@ public class ProductionPlanService {
 
         List<Product> products = productRepository.findAllWithRawMaterials();
 
-        // Prioriza por valor (maior primeiro)
-        products.sort((p1, p2) -> p2.getValue().compareTo(p1.getValue()));
+        products.sort((p1, p2) -> p2.getPrice().compareTo(p1.getPrice()));
 
         List<RawMaterial> rawMaterials = rawMaterialRepository.listAll();
 
@@ -49,7 +48,7 @@ public class ProductionPlanService {
                         product.getId(),
                         product.getName(),
                         maxQuantity,
-                        product.getValue()
+                        product.getPrice()
                 );
 
                 plan.addProductionItem(item);
@@ -76,7 +75,7 @@ public class ProductionPlanService {
         for (ProductRawMaterial prm : product.getProductRawMaterials()) {
 
             Long rawMaterialId = prm.getRawMaterial().getId();
-            int requiredPerUnit = prm.getQuantity();
+            int requiredPerUnit = prm.getQuantityRequired();
             int available = remainingStock.getOrDefault(rawMaterialId, 0);
 
             int possible = available / requiredPerUnit;
@@ -96,7 +95,7 @@ public class ProductionPlanService {
         for (ProductRawMaterial prm : product.getProductRawMaterials()) {
 
             Long rawMaterialId = prm.getRawMaterial().getId();
-            int totalRequired = prm.getQuantity() * quantity;
+            int totalRequired = prm.getQuantityRequired() * quantity;
 
             int currentStock = remainingStock.get(rawMaterialId);
 
@@ -131,7 +130,7 @@ public class ProductionPlanService {
                 product.getId(),
                 product.getName(),
                 maxQuantity,
-                product.getValue()
+                product.getPrice()
         );
     }
 
@@ -145,7 +144,7 @@ public class ProductionPlanService {
 
         for (ProductRawMaterial prm : product.getProductRawMaterials()) {
 
-            int required = prm.getQuantity() * quantity;
+            int required = prm.getQuantityRequired() * quantity;
             int available = prm.getRawMaterial().getStockQuantity();
 
             if (available < required) {

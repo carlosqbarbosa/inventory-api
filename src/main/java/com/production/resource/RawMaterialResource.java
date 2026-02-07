@@ -81,7 +81,7 @@ public class RawMaterialResource {
             return Response.status(404).build();
         }
 
-        return Response.noContent().build(); // 204
+        return Response.noContent().build();
     }
 
     @POST

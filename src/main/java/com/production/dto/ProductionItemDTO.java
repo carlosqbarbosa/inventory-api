@@ -10,7 +10,6 @@ public class ProductionItemDTO {
     private BigDecimal unitValue;
     private BigDecimal totalValue;
 
-    // Constructors
     public ProductionItemDTO() {
     }
 
@@ -22,7 +21,6 @@ public class ProductionItemDTO {
         this.totalValue = unitValue.multiply(BigDecimal.valueOf(quantity));
     }
 
-    // Getters and Setters
     public Long getProductId() {
         return productId;
     }

@@ -17,13 +17,11 @@ public class ProductionPlanResource {
     @Inject
     ProductionPlanService service;
 
-    // Plano completo
     @GET
     public Response getPlan() {
         return Response.ok(service.calculateProductionPlan()).build();
     }
 
-    // Calcular por produto
     @GET
     @Path("/product/{productId}")
     public Response calculateForProduct(@PathParam("productId") Long productId) {
