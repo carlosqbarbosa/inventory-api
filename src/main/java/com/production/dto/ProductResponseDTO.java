@@ -1,5 +1,6 @@
 package com.production.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.production.entity.ProductEntity;
 
 import java.math.BigDecimal;
@@ -28,42 +29,22 @@ public class ProductResponseDTO {
                 .collect(Collectors.toList());
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getName() {
-        return name;
-    }
+    @JsonProperty("value")
+    public BigDecimal getPrice() { return price; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @JsonProperty("value")
+    public void setPrice(BigDecimal price) { this.price = price; }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+    public Integer getStock() { return stock; }
+    public void setStock(Integer stock) { this.stock = stock; }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public List<ProductRawMaterialResponseDTO> getProductRawMaterials() {
-        return productRawMaterials;
-    }
-
+    public List<ProductRawMaterialResponseDTO> getProductRawMaterials() { return productRawMaterials; }
     public void setProductRawMaterials(List<ProductRawMaterialResponseDTO> productRawMaterials) {
         this.productRawMaterials = productRawMaterials;
     }

@@ -1,5 +1,6 @@
 package com.production.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,50 +30,29 @@ public class ProductEntity {
     )
     private List<ProductRawMaterialEntity> productRawMaterials = new ArrayList<>();
 
-    public ProductEntity() {
-    }
+    public ProductEntity() {}
 
     public ProductEntity(String name, BigDecimal price) {
         this.name = name;
         this.price = price;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getName() {
-        return name;
-    }
+    @JsonProperty("value")
+    public BigDecimal getPrice() { return price; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @JsonProperty("value")
+    public void setPrice(BigDecimal price) { this.price = price; }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+    public Integer getStock() { return stock; }
+    public void setStock(Integer stock) { this.stock = stock; }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public List<ProductRawMaterialEntity> getProductRawMaterials() {
-        return productRawMaterials;
-    }
-
+    public List<ProductRawMaterialEntity> getProductRawMaterials() { return productRawMaterials; }
     public void setProductRawMaterials(List<ProductRawMaterialEntity> productRawMaterials) {
         this.productRawMaterials = productRawMaterials;
     }
