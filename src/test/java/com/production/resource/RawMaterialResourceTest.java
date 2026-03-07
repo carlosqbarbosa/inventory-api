@@ -1,6 +1,6 @@
 package com.production.resource;
 
-import com.production.entity.RawMaterial;
+import com.production.entity.RawMaterialEntity;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.*;
@@ -32,7 +32,7 @@ public class RawMaterialResourceTest {
     @Order(2)
     @DisplayName("Should create a new raw material")
     public void testCreateRawMaterial() {
-        RawMaterial material = new RawMaterial("Steel", 100);
+        RawMaterialEntity material = new RawMaterialEntity("Steel", 100);
 
         given()
                 .contentType(ContentType.JSON)
@@ -51,7 +51,7 @@ public class RawMaterialResourceTest {
     @Order(3)
     @DisplayName("Should get raw material by ID")
     public void testGetRawMaterialById() {
-        RawMaterial material = new RawMaterial("Plastic", 50);
+        RawMaterialEntity material = new RawMaterialEntity("Plastic", 50);
 
         Integer id = given()
                 .contentType(ContentType.JSON)
@@ -78,7 +78,7 @@ public class RawMaterialResourceTest {
     @Order(4)
     @DisplayName("Should update raw material")
     public void testUpdateRawMaterial() {
-        RawMaterial material = new RawMaterial("Aluminum", 200);
+        RawMaterialEntity material = new RawMaterialEntity("Aluminum", 200);
 
         Integer id = given()
                 .contentType(ContentType.JSON)
@@ -90,7 +90,7 @@ public class RawMaterialResourceTest {
                 .extract()
                 .path("id");
 
-        RawMaterial updatedMaterial = new RawMaterial("Updated Aluminum", 300);
+        RawMaterialEntity updatedMaterial = new RawMaterialEntity("Updated Aluminum", 300);
 
         given()
                 .contentType(ContentType.JSON)
@@ -107,7 +107,7 @@ public class RawMaterialResourceTest {
     @Order(5)
     @DisplayName("Should delete raw material")
     public void testDeleteRawMaterial() {
-        RawMaterial material = new RawMaterial("To Delete", 50);
+        RawMaterialEntity material = new RawMaterialEntity("To Delete", 50);
 
         Integer id = given()
                 .contentType(ContentType.JSON)
@@ -136,7 +136,7 @@ public class RawMaterialResourceTest {
     @Order(6)
     @DisplayName("Should update stock quantity")
     public void testUpdateStock() {
-        RawMaterial material = new RawMaterial("Copper", 100);
+        RawMaterialEntity material = new RawMaterialEntity("Copper", 100);
 
         Integer id = given()
                 .contentType(ContentType.JSON)
@@ -160,7 +160,7 @@ public class RawMaterialResourceTest {
     @Order(7)
     @DisplayName("Should increase stock")
     public void testIncreaseStock() {
-        RawMaterial material = new RawMaterial("Bronze", 100);
+        RawMaterialEntity material = new RawMaterialEntity("Bronze", 100);
 
         Integer id = given()
                 .contentType(ContentType.JSON)
@@ -189,7 +189,7 @@ public class RawMaterialResourceTest {
     @Order(8)
     @DisplayName("Should decrease stock")
     public void testDecreaseStock() {
-        RawMaterial material = new RawMaterial("Gold", 100);
+        RawMaterialEntity material = new RawMaterialEntity("Gold", 100);
 
         Integer id = given()
                 .contentType(ContentType.JSON)
@@ -218,7 +218,7 @@ public class RawMaterialResourceTest {
     @Order(9)
     @DisplayName("Should return 400 for invalid raw material - empty name")
     public void testCreateRawMaterialWithEmptyName() {
-        RawMaterial material = new RawMaterial("", 100);
+        RawMaterialEntity material = new RawMaterialEntity("", 100);
 
         given()
                 .contentType(ContentType.JSON)
@@ -233,7 +233,7 @@ public class RawMaterialResourceTest {
     @Order(10)
     @DisplayName("Should return 400 for invalid raw material - negative stock")
     public void testCreateRawMaterialWithNegativeStock() {
-        RawMaterial material = new RawMaterial("Valid Name", -10);
+        RawMaterialEntity material = new RawMaterialEntity("Valid Name", -10);
 
         given()
                 .contentType(ContentType.JSON)
@@ -250,19 +250,19 @@ public class RawMaterialResourceTest {
     public void testGetLowStock() {
         given()
                 .contentType(ContentType.JSON)
-                .body(new RawMaterial("Low Stock 1", 5))
+                .body(new RawMaterialEntity("Low Stock 1", 5))
                 .when()
                 .post("/raw-materials");
 
         given()
                 .contentType(ContentType.JSON)
-                .body(new RawMaterial("Low Stock 2", 8))
+                .body(new RawMaterialEntity("Low Stock 2", 8))
                 .when()
                 .post("/raw-materials");
 
         given()
                 .contentType(ContentType.JSON)
-                .body(new RawMaterial("High Stock", 100))
+                .body(new RawMaterialEntity("High Stock", 100))
                 .when()
                 .post("/raw-materials");
 
@@ -281,7 +281,7 @@ public class RawMaterialResourceTest {
     public void testSearchByName() {
         given()
                 .contentType(ContentType.JSON)
-                .body(new RawMaterial("Titanium Alloy", 50))
+                .body(new RawMaterialEntity("Titanium Alloy", 50))
                 .when()
                 .post("/raw-materials");
 
@@ -309,7 +309,7 @@ public class RawMaterialResourceTest {
     @Order(14)
     @DisplayName("Should create material with zero stock")
     public void testCreateMaterialWithZeroStock() {
-        RawMaterial material = new RawMaterial("Empty Stock", 0);
+        RawMaterialEntity material = new RawMaterialEntity("Empty Stock", 0);
 
         given()
                 .contentType(ContentType.JSON)

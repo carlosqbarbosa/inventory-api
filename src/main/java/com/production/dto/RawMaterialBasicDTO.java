@@ -1,6 +1,6 @@
 package com.production.dto;
 
-import com.production.entity.RawMaterial;
+import com.production.entity.RawMaterialEntity;
 
 public class RawMaterialBasicDTO {
 
@@ -11,7 +11,7 @@ public class RawMaterialBasicDTO {
     public RawMaterialBasicDTO() {
     }
 
-    public RawMaterialBasicDTO(RawMaterial rawMaterial) {
+    public RawMaterialBasicDTO(RawMaterialEntity rawMaterial) {
         this.id = rawMaterial.getId();
         this.name = rawMaterial.getName();
         this.stockQuantity = rawMaterial.getStockQuantity();

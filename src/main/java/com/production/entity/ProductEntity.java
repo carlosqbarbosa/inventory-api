@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
-public class Product {
+public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +27,12 @@ public class Product {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<ProductRawMaterial> productRawMaterials = new ArrayList<>();
+    private List<ProductRawMaterialEntity> productRawMaterials = new ArrayList<>();
 
-    public Product() {
+    public ProductEntity() {
     }
 
-    public Product(String name, BigDecimal price) {
+    public ProductEntity(String name, BigDecimal price) {
         this.name = name;
         this.price = price;
     }
@@ -69,11 +69,11 @@ public class Product {
         this.stock = stock;
     }
 
-    public List<ProductRawMaterial> getProductRawMaterials() {
+    public List<ProductRawMaterialEntity> getProductRawMaterials() {
         return productRawMaterials;
     }
 
-    public void setProductRawMaterials(List<ProductRawMaterial> productRawMaterials) {
+    public void setProductRawMaterials(List<ProductRawMaterialEntity> productRawMaterials) {
         this.productRawMaterials = productRawMaterials;
     }
 }

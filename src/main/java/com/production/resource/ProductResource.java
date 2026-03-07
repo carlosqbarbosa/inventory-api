@@ -1,9 +1,9 @@
 package com.production.resource;
 
 import com.production.dto.ProductResponseDTO;
-import com.production.entity.Product;
-import com.production.entity.ProductRawMaterial;
-import com.production.entity.RawMaterial;
+import com.production.entity.ProductEntity;
+import com.production.entity.ProductRawMaterialEntity;
+import com.production.entity.RawMaterialEntity;
 import com.production.repository.ProductRepository;
 import com.production.repository.ProductRawMaterialRepository;
 import com.production.repository.RawMaterialRepository;
@@ -48,7 +48,7 @@ public class ProductResource {
     @GET
     @Path("/{id}")
     public Response get(@PathParam("id") Long id) {
-        Product product = productRepository.findByIdWithRawMaterials(id);
+        ProductEntity product = productRepository.findByIdWithRawMaterials(id);
 
         if (product == null) {
             return Response.status(404).build();
@@ -59,7 +59,7 @@ public class ProductResource {
 
     @POST
     @Transactional
-    public Response create(Product product) {
+    public Response create(ProductEntity product) {
         try {
             if (product == null) {
                 return Response.status(400).entity("Product is null").build();
@@ -89,8 +89,8 @@ public class ProductResource {
     @PUT
     @Path("/{id}")
     @Transactional
-    public Response update(@PathParam("id") Long id, Product updated) {
-        Product product = productRepository.findById(id);
+    public Response update(@PathParam("id") Long id, ProductEntity updated) {
+        ProductEntity product = productRepository.findById(id);
 
         if (product == null) {
             return Response.status(404).build();
@@ -120,7 +120,7 @@ public class ProductResource {
     @GET
     @Path("/{id}/raw-materials")
     public Response getRawMaterials(@PathParam("id") Long productId) {
-        Product product = productRepository.findByIdWithRawMaterials(productId);
+        ProductEntity product = productRepository.findByIdWithRawMaterials(productId);
 
         if (product == null) {
             return Response.status(404).entity("Product not found").build();
@@ -134,7 +134,7 @@ public class ProductResource {
     @Transactional
     public Response addRawMaterial(@PathParam("id") Long productId, Map<String, Object> payload) {
         try {
-            Product product = productRepository.findByIdWithRawMaterials(productId);
+            ProductEntity product = productRepository.findByIdWithRawMaterials(productId);
             if (product == null) {
                 return Response.status(404).entity("Product not found").build();
             }
@@ -142,7 +142,7 @@ public class ProductResource {
             Long rawMaterialId = Long.valueOf(payload.get("rawMaterialId").toString());
             Integer quantityRequired = Integer.valueOf(payload.get("quantityRequired").toString());
 
-            RawMaterial rawMaterial = rawMaterialRepository.findById(rawMaterialId);
+            RawMaterialEntity rawMaterial = rawMaterialRepository.findById(rawMaterialId);
             if (rawMaterial == null) {
                 return Response.status(404).entity("Raw material not found").build();
             }
@@ -154,7 +154,7 @@ public class ProductResource {
                 return Response.status(400).entity("Raw material already associated").build();
             }
 
-            ProductRawMaterial productRawMaterial = new ProductRawMaterial();
+            ProductRawMaterialEntity productRawMaterial = new ProductRawMaterialEntity();
             productRawMaterial.setProduct(product);
             productRawMaterial.setRawMaterial(rawMaterial);
             productRawMaterial.setQuantityRequired(quantityRequired);
@@ -180,7 +180,7 @@ public class ProductResource {
             Map<String, Integer> payload) {
 
         try {
-            Product product = productRepository.findByIdWithRawMaterials(productId);
+            ProductEntity product = productRepository.findByIdWithRawMaterials(productId);
             if (product == null) {
                 return Response.status(404).entity("Product not found").build();
             }
@@ -190,7 +190,7 @@ public class ProductResource {
                 return Response.status(400).entity("Invalid quantity").build();
             }
 
-            ProductRawMaterial association = product.getProductRawMaterials().stream()
+            ProductRawMaterialEntity association = product.getProductRawMaterials().stream()
                     .filter(prm -> prm.getRawMaterial().getId().equals(rawMaterialId))
                     .findFirst()
                     .orElse(null);

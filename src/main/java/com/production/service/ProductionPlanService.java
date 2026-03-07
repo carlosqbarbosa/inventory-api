@@ -2,9 +2,9 @@ package com.production.service;
 
 import com.production.dto.ProductionItemDTO;
 import com.production.dto.ProductionPlanDTO;
-import com.production.entity.Product;
-import com.production.entity.ProductRawMaterial;
-import com.production.entity.RawMaterial;
+import com.production.entity.ProductEntity;
+import com.production.entity.ProductRawMaterialEntity;
+import com.production.entity.RawMaterialEntity;
 import com.production.repository.ProductRepository;
 import com.production.repository.RawMaterialRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -26,19 +26,19 @@ public class ProductionPlanService {
 
         ProductionPlanDTO plan = new ProductionPlanDTO();
 
-        List<Product> products = productRepository.findAllWithRawMaterials();
+        List<ProductEntity> products = productRepository.findAllWithRawMaterials();
 
         products.sort((p1, p2) -> p2.getPrice().compareTo(p1.getPrice()));
 
-        List<RawMaterial> rawMaterials = rawMaterialRepository.listAll();
+        List<RawMaterialEntity> rawMaterials = rawMaterialRepository.listAll();
 
         Map<Long, Integer> remainingStock = rawMaterials.stream()
                 .collect(Collectors.toMap(
-                        RawMaterial::getId,
-                        RawMaterial::getStockQuantity
+                        RawMaterialEntity::getId,
+                        RawMaterialEntity::getStockQuantity
                 ));
 
-        for (Product product : products) {
+        for (ProductEntity product : products) {
 
             int maxQuantity = calculateMaxProductionQuantity(product, remainingStock);
 
@@ -61,7 +61,7 @@ public class ProductionPlanService {
     }
 
     private int calculateMaxProductionQuantity(
-            Product product,
+            ProductEntity product,
             Map<Long, Integer> remainingStock
     ) {
 
@@ -72,7 +72,7 @@ public class ProductionPlanService {
 
         int maxQuantity = Integer.MAX_VALUE;
 
-        for (ProductRawMaterial prm : product.getProductRawMaterials()) {
+        for (ProductRawMaterialEntity prm : product.getProductRawMaterials()) {
 
             Long rawMaterialId = prm.getRawMaterial().getId();
             int requiredPerUnit = prm.getQuantityRequired();
@@ -87,12 +87,12 @@ public class ProductionPlanService {
     }
 
     private void updateRemainingStock(
-            Product product,
+            ProductEntity product,
             int quantity,
             Map<Long, Integer> remainingStock
     ) {
 
-        for (ProductRawMaterial prm : product.getProductRawMaterials()) {
+        for (ProductRawMaterialEntity prm : product.getProductRawMaterials()) {
 
             Long rawMaterialId = prm.getRawMaterial().getId();
             int totalRequired = prm.getQuantityRequired() * quantity;
@@ -108,7 +108,7 @@ public class ProductionPlanService {
 
     public ProductionItemDTO calculateProductionForProduct(Long productId) {
 
-        Product product = productRepository.findByIdWithRawMaterials(productId);
+        ProductEntity product = productRepository.findByIdWithRawMaterials(productId);
 
         if (product == null) {
             throw new IllegalArgumentException(
@@ -116,12 +116,12 @@ public class ProductionPlanService {
             );
         }
 
-        List<RawMaterial> rawMaterials = rawMaterialRepository.listAll();
+        List<RawMaterialEntity> rawMaterials = rawMaterialRepository.listAll();
 
         Map<Long, Integer> remainingStock = rawMaterials.stream()
                 .collect(Collectors.toMap(
-                        RawMaterial::getId,
-                        RawMaterial::getStockQuantity
+                        RawMaterialEntity::getId,
+                        RawMaterialEntity::getStockQuantity
                 ));
 
         int maxQuantity = calculateMaxProductionQuantity(product, remainingStock);
@@ -136,13 +136,13 @@ public class ProductionPlanService {
 
     public boolean canProduceQuantity(Long productId, Integer quantity) {
 
-        Product product = productRepository.findByIdWithRawMaterials(productId);
+        ProductEntity product = productRepository.findByIdWithRawMaterials(productId);
 
         if (product == null) {
             return false;
         }
 
-        for (ProductRawMaterial prm : product.getProductRawMaterials()) {
+        for (ProductRawMaterialEntity prm : product.getProductRawMaterials()) {
 
             int required = prm.getQuantityRequired() * quantity;
             int available = prm.getRawMaterial().getStockQuantity();

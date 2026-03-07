@@ -1,7 +1,7 @@
 package com.production.resource;
 
 import com.production.dto.StockRequest;
-import com.production.entity.RawMaterial;
+import com.production.entity.RawMaterialEntity;
 import com.production.repository.RawMaterialRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -20,7 +20,7 @@ public class RawMaterialResource {
     RawMaterialRepository repository;
 
     @GET
-    public List<RawMaterial> list() {
+    public List<RawMaterialEntity> list() {
         return repository.listAll();
     }
 
@@ -28,7 +28,7 @@ public class RawMaterialResource {
     @Path("/{id}")
     public Response get(@PathParam("id") Long id) {
 
-        RawMaterial material = repository.findById(id);
+        RawMaterialEntity material = repository.findById(id);
 
         if (material == null) {
             return Response.status(404).build();
@@ -39,7 +39,7 @@ public class RawMaterialResource {
 
     @POST
     @Transactional
-    public Response create(RawMaterial material) {
+    public Response create(RawMaterialEntity material) {
 
         if (material.getName() == null || material.getName().isBlank()) {
             return Response.status(400).build();
@@ -56,9 +56,9 @@ public class RawMaterialResource {
     @PUT
     @Path("/{id}")
     @Transactional
-    public Response update(@PathParam("id") Long id, RawMaterial updated) {
+    public Response update(@PathParam("id") Long id, RawMaterialEntity updated) {
 
-        RawMaterial material = repository.findById(id);
+        RawMaterialEntity material = repository.findById(id);
 
         if (material == null) {
             return Response.status(404).build();
@@ -89,7 +89,7 @@ public class RawMaterialResource {
     @Transactional
     public Response increase(@PathParam("id") Long id, StockRequest request) {
 
-        RawMaterial material = repository.findById(id);
+        RawMaterialEntity material = repository.findById(id);
 
         if (material == null) return Response.status(404).build();
 
@@ -107,7 +107,7 @@ public class RawMaterialResource {
     @Transactional
     public Response decrease(@PathParam("id") Long id, StockRequest request) {
 
-        RawMaterial material = repository.findById(id);
+        RawMaterialEntity material = repository.findById(id);
 
         if (material == null) {
             return Response.status(404).build();
@@ -133,7 +133,7 @@ public class RawMaterialResource {
     public Response updateStock(@PathParam("id") Long id,
                                 @QueryParam("quantity") Integer quantity) {
 
-        RawMaterial material = repository.findById(id);
+        RawMaterialEntity material = repository.findById(id);
 
         if (material == null) {
             return Response.status(404).build();
@@ -150,13 +150,13 @@ public class RawMaterialResource {
 
     @GET
     @Path("/low-stock")
-    public List<RawMaterial> lowStock(@QueryParam("threshold") Integer threshold) {
+    public List<RawMaterialEntity> lowStock(@QueryParam("threshold") Integer threshold) {
         return repository.findLowStock(threshold);
     }
 
     @GET
     @Path("/search")
-    public List<RawMaterial> search(@QueryParam("name") String name) {
+    public List<RawMaterialEntity> search(@QueryParam("name") String name) {
         return repository.findByName(name);
     }
 

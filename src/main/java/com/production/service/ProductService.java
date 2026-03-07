@@ -1,9 +1,9 @@
 package com.production.service;
 
 import com.production.dto.ProductRawMaterialDTO;
-import com.production.entity.Product;
-import com.production.entity.ProductRawMaterial;
-import com.production.entity.RawMaterial;
+import com.production.entity.ProductEntity;
+import com.production.entity.ProductRawMaterialEntity;
+import com.production.entity.RawMaterialEntity;
 import com.production.repository.ProductRepository;
 import com.production.repository.ProductRawMaterialRepository;
 import com.production.repository.RawMaterialRepository;
@@ -31,12 +31,12 @@ public class ProductService {
     @Inject
     EntityManager entityManager;
 
-    public List<Product> findAll() {
+    public List<ProductEntity> findAll() {
         return productRepository.listAll();
     }
 
-    public Product findById(Long id) {
-        Product product = productRepository.findByIdWithRawMaterials(id);
+    public ProductEntity findById(Long id) {
+        ProductEntity product = productRepository.findByIdWithRawMaterials(id);
         if (product == null) {
             throw new NotFoundException("Product not found with id: " + id);
         }
@@ -44,14 +44,14 @@ public class ProductService {
     }
 
     @Transactional
-    public Product create(Product product) {
+    public ProductEntity create(ProductEntity product) {
         productRepository.persist(product);
         return product;
     }
 
     @Transactional
-    public Product update(Long id, Product updatedProduct) {
-        Product product = findById(id);
+    public ProductEntity update(Long id, ProductEntity updatedProduct) {
+        ProductEntity product = findById(id);
         product.setName(updatedProduct.getName());
         product.setPrice(updatedProduct.getPrice());
         return product;
@@ -59,12 +59,12 @@ public class ProductService {
 
     @Transactional
     public void delete(Long id) {
-        Product product = findById(id);
+        ProductEntity product = findById(id);
         productRepository.delete(product);
     }
 
     public List<ProductRawMaterialDTO> getProductRawMaterials(Long productId) {
-        Product product = findById(productId);
+        ProductEntity product = findById(productId);
 
         return product.getProductRawMaterials()
                 .stream()
@@ -80,9 +80,9 @@ public class ProductService {
     @Transactional
     public void addRawMaterialToProduct(Long productId, ProductRawMaterialDTO dto) {
 
-        Product product = findById(productId);
+        ProductEntity product = findById(productId);
 
-        RawMaterial rawMaterial = rawMaterialRepository.findById(dto.getRawMaterialId());
+        RawMaterialEntity rawMaterial = rawMaterialRepository.findById(dto.getRawMaterialId());
 
         if (rawMaterial == null) {
             throw new NotFoundException(
@@ -102,7 +102,7 @@ public class ProductService {
             );
         }
 
-        ProductRawMaterial prm = new ProductRawMaterial();
+        ProductRawMaterialEntity prm = new ProductRawMaterialEntity();
         prm.setProduct(product);
         prm.setRawMaterial(rawMaterial);
         prm.setQuantityRequired(dto.getQuantityRequired());
@@ -118,9 +118,9 @@ public class ProductService {
             Integer newQuantity
     ) {
 
-        Product product = findById(productId);
+        ProductEntity product = findById(productId);
 
-        ProductRawMaterial prm = product.getProductRawMaterials()
+        ProductRawMaterialEntity prm = product.getProductRawMaterials()
                 .stream()
                 .filter(p ->
                         p.getRawMaterial().getId().equals(rawMaterialId)
@@ -138,11 +138,11 @@ public class ProductService {
 
         System.out.println(" Backend DELETE - Start: productId=" + productId + ", rawMaterialId=" + rawMaterialId);
 
-        Product product = findById(productId);
+        ProductEntity product = findById(productId);
 
         System.out.println(" Product found: " + product.getName() + ", materials count: " + product.getProductRawMaterials().size());
 
-        ProductRawMaterial prm = product.getProductRawMaterials()
+        ProductRawMaterialEntity prm = product.getProductRawMaterials()
                 .stream()
                 .filter(p -> p.getRawMaterial().getId().equals(rawMaterialId))
                 .findFirst()

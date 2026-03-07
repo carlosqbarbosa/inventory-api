@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "raw_materials")
-public class RawMaterial {
+public class RawMaterialEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +30,11 @@ public class RawMaterial {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<ProductRawMaterial> productRawMaterials = new ArrayList<>();
+    private List<ProductRawMaterialEntity> productRawMaterials = new ArrayList<>();
 
-    public RawMaterial() {}
+    public RawMaterialEntity() {}
 
-    public RawMaterial(String name, Integer stockQuantity) {
+    public RawMaterialEntity(String name, Integer stockQuantity) {
         this.name = name;
         this.stockQuantity = stockQuantity;
     }

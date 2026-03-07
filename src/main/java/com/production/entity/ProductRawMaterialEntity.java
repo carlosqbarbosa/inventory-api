@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "product_raw_materials")
-public class ProductRawMaterial {
+public class ProductRawMaterialEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,19 +12,19 @@ public class ProductRawMaterial {
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private ProductEntity product;
 
     @ManyToOne
     @JoinColumn(name = "raw_material_id", nullable = false)
-    private RawMaterial rawMaterial;
+    private RawMaterialEntity rawMaterial;
 
     @Column(name = "quantity_required", nullable = false)
     private Integer quantityRequired;
 
-    public ProductRawMaterial() {
+    public ProductRawMaterialEntity() {
     }
 
-    public ProductRawMaterial(Product product, RawMaterial rawMaterial, Integer quantityRequired) {
+    public ProductRawMaterialEntity(ProductEntity product, RawMaterialEntity rawMaterial, Integer quantityRequired) {
         this.product = product;
         this.rawMaterial = rawMaterial;
         this.quantityRequired = quantityRequired;
@@ -38,19 +38,19 @@ public class ProductRawMaterial {
         this.id = id;
     }
 
-    public Product getProduct() {
+    public ProductEntity getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(ProductEntity product) {
         this.product = product;
     }
 
-    public RawMaterial getRawMaterial() {
+    public RawMaterialEntity getRawMaterial() {
         return rawMaterial;
     }
 
-    public void setRawMaterial(RawMaterial rawMaterial) {
+    public void setRawMaterial(RawMaterialEntity rawMaterial) {
         this.rawMaterial = rawMaterial;
     }
 

@@ -1,6 +1,7 @@
 package com.production.dto;
 
-import com.production.entity.Product;
+import com.production.entity.ProductEntity;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +17,7 @@ public class ProductResponseDTO {
     public ProductResponseDTO() {
     }
 
-    public ProductResponseDTO(Product product) {
+    public ProductResponseDTO(ProductEntity product) {
         this.id = product.getId();
         this.name = product.getName();
         this.price = product.getPrice();

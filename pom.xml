@@ -8,7 +8,7 @@
     <groupId>com.company</groupId>
     <artifactId>inventory-api</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>quarkus</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
@@ -17,13 +17,12 @@
 
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-        <quarkus.platform.version>3.31.2</quarkus.platform.version>
+        <quarkus.platform.version>3.9.5</quarkus.platform.version>
 
-        <surefire-plugin.version>3.5.4</surefire-plugin.version>
+        <surefire-plugin.version>3.2.5</surefire-plugin.version>
         <skipITs>false</skipITs>
     </properties>
 
-    <!-- BOM do Quarkus -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -44,7 +43,7 @@
             <artifactId>quarkus-arc</artifactId>
         </dependency>
 
-        <!-- REST -->
+        <!-- REST (já inclui suporte a CORS) -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest</artifactId>
@@ -83,7 +82,7 @@
         <!-- Testes -->
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-junit</artifactId>
+            <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -109,11 +108,20 @@
                 <artifactId>quarkus-maven-plugin</artifactId>
                 <version>${quarkus.platform.version}</version>
                 <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>generate-code</goal>
+                            <goal>generate-code-tests</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.1</version>
+                <version>3.12.1</version>
                 <configuration>
                     <parameters>true</parameters>
                 </configuration>

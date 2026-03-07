@@ -1,7 +1,9 @@
 package com.production.resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.production.entity.Product;
+import com.production.entity.ProductEntity;
+import com.production.entity.ProductEntity;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +22,7 @@ public class TestDeserializacao {
             String json = mapper.writeValueAsString(productMap);
             System.out.println("Generated JSON: " + json);
 
-            Product product = mapper.readValue(json, Product.class);
+            ProductEntity product = mapper.readValue(json, ProductEntity.class);
 
             System.out.println("\n SUCCESS!");
             System.out.println("Name: " + product.getName());
@@ -35,7 +37,7 @@ public class TestDeserializacao {
 
         try {
 
-            Product product = new Product();
+            ProductEntity product = new ProductEntity();
             product.setName("Direct Product");
             product.setPrice(new BigDecimal("150.50"));
 
@@ -49,7 +51,7 @@ public class TestDeserializacao {
         }
 
         try {
-            Product.class.getDeclaredConstructor();
+            ProductEntity.class.getDeclaredConstructor();
             System.out.println(" Default constructor exists!");
 
         } catch (NoSuchMethodException e) {

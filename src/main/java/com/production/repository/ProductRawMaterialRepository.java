@@ -1,19 +1,19 @@
 package com.production.repository;
 
-import com.production.entity.ProductRawMaterial;
+import com.production.entity.ProductRawMaterialEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
 
 @ApplicationScoped
-public class ProductRawMaterialRepository implements PanacheRepository<ProductRawMaterial> {
+public class ProductRawMaterialRepository implements PanacheRepository<ProductRawMaterialEntity> {
 
-    public List<ProductRawMaterial> findByProductId(Long productId) {
+    public List<ProductRawMaterialEntity> findByProductId(Long productId) {
         return list("product.id", productId);
     }
 
-    public List<ProductRawMaterial> findByRawMaterialId(Long rawMaterialId) {
+    public List<ProductRawMaterialEntity> findByRawMaterialId(Long rawMaterialId) {
         return list("rawMaterial.id", rawMaterialId);
     }
 

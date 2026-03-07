@@ -1,6 +1,6 @@
 package com.production.resource;
 
-import com.production.entity.Product;
+import com.production.entity.ProductEntity;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.*;

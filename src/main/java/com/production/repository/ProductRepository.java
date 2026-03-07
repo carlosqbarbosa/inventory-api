@@ -1,25 +1,25 @@
 package com.production.repository;
 
-import com.production.entity.Product;
+import com.production.entity.ProductEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
 
 @ApplicationScoped
-public class ProductRepository implements PanacheRepository<Product> {
+public class ProductRepository implements PanacheRepository<ProductEntity> {
 
-    public List<Product> findAllWithRawMaterials() {
+    public List<ProductEntity> findAllWithRawMaterials() {
         return find(
-                "SELECT DISTINCT p FROM Product p " +
+                "SELECT DISTINCT p FROM ProductEntity p " +
                         "LEFT JOIN FETCH p.productRawMaterials prm " +
                         "LEFT JOIN FETCH prm.rawMaterial"
         ).list();
     }
 
-    public Product findByIdWithRawMaterials(Long id) {
+    public ProductEntity findByIdWithRawMaterials(Long id) {
         return find(
-                "SELECT p FROM Product p " +
+                "SELECT p FROM ProductEntity p " +
                         "LEFT JOIN FETCH p.productRawMaterials prm " +
                         "LEFT JOIN FETCH prm.rawMaterial " +
                         "WHERE p.id = ?1",
@@ -27,7 +27,8 @@ public class ProductRepository implements PanacheRepository<Product> {
         ).firstResult();
     }
 
-    public List<Product> findByName(String name) {
+    public List<ProductEntity> findByName(String name) {
+
         return list("LOWER(name) LIKE LOWER(?1)", "%" + name + "%");
     }
 }
